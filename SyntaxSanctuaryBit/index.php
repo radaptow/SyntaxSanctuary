@@ -27,7 +27,21 @@
         <!-- Menú Lateral -->
         <aside class="sidebar" id="sidebar">
             <ul>
-                <li class="lang-es"><a href="#">Home</a></li>
+                <li class="lang-es"><a href="https://syntaxsanctuary.com">Home</a></li>
+                <li class="lang-es"><a href="../SyntaxSanctuaryCards">SsCards</a></li>
+                <li class="lang-es"><a href="../SyntaxSanctuaryChat">SsChat</a></li>
+                <li class="lang-es"><a href="../SyntaxSanctuaryClock">SsClock</a></li>
+                <li class="lang-es"><a href="../SyntaxSanctuaryFmPlusCodeEditorPlusGit">SsCodeEditorPlusGit</a></li>
+                <li class="lang-es"><a href="../SyntaxSanctuaryImageGenerator">SsImageGenerator</a></li>
+                <li class="lang-es"><a href="../SyntaxSanctuaryIps">SsIps</a></li>
+                <li class="lang-es"><a href="../SyntaxSanctuaryLaundry">SsLaundry</a></li>
+                <li class="lang-es"><a href="../SyntaxSanctuaryOllamaText">SsOllamaText</a></li>
+                <li class="lang-es"><a href="../SyntaxSanctuaryOllamaVision">SsOllamaVision</a></li>
+                <li class="lang-es"><a href="../SyntaxSanctuaryPlayer">SsPlayer</a></li>
+                <li class="lang-es"><a href="../SyntaxSanctuaryPrivate">SsPrivado</a></li>
+                <li class="lang-es"><a href="../SyntaxSanctuaryTml">SsTml</a></li>
+                <li class="lang-es"><a href="../SyntaxSanctuaryTts">SsTts</a></li>
+                <li class="lang-es"><a href="../SyntaxSanctuaryWhisper">SsWhisper</a></li>
             </ul>
         </aside>
 
