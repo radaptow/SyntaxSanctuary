@@ -9,7 +9,7 @@ if (!file_exists($json_file)) {
             "id" => "01",
             "titulo" => "Syntax Sanctuary - Componente 01: cuadricula background",
             "descripcion" => "Diseño de componente frontend con patrón de cuadrícula y estilo neón trending 2026. Optimizado para fondos de interfaz.",
-            "imagen" => "componente1.jpg", // Tu imagen generada
+            "imagen" => "./assets/01.jpg", // Tu imagen generada
             "enlace" => "#",
             "clase_tamano" => "grid-large" // Clase CSS para variar el tamaño de la tarjeta
         ]
