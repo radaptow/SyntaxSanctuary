@@ -1,0 +1,98 @@
+/* ============================================================
+    LOGIN
+    ============================================================ */
+:root {
+    --bg: #f1f5f9;
+    --card: #ffffff;
+    --border: #cbd5e1;
+    --input: #f8fafc;
+    --text: #0f172a;
+    --muted: #64748b;
+    --primary: #2563eb;
+    --primary-hover: #1d4ed8;
+    --error: #fee2e2;
+    --error-text: #991b1b;
+}
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+html {
+    min-width: 320px;
+}
+body {
+    margin: 0;
+    min-width: 320px;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.login {
+    width: 100%;
+    max-width: 420px;
+    padding: 22px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 15px 45px rgba(15, 23, 42, .12);
+}
+.login h2 {
+    margin: 0 0 24px;
+    font-size: clamp(20px, 7vw, 28px);
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+}
+.login label {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 700;
+}
+.login input {
+    width: 100%;
+    min-height: 46px;
+    padding: 11px 12px;
+    margin-bottom: 16px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--input);
+    color: var(--text);
+    font: inherit;
+}
+.login input:focus {
+    outline: 3px solid rgba(37, 99, 235, .18);
+    border-color: var(--primary);
+}
+.login button {
+    width: 100%;
+    min-height: 46px;
+    padding: 11px;
+    border: 0;
+    border-radius: 8px;
+    background: var(--primary);
+    color: white;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+.login button:hover {
+    background: var(--primary-hover);
+}
+.error {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    background: var(--error);
+    color: var(--error-text);
+    overflow-wrap: anywhere;
+}
+@media (min-width: 480px) {
+    body { padding: 20px; }
+    .login { padding: 32px; }
+}
