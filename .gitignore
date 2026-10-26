@@ -1,1 +1,6 @@
 .env
+SyntaxSanctuaryCards/portafolio_data.json
+SyntaxSanctuaryChat/chat_db.json
+SyntaxSanctuaryFmPlusCodeEditorPlusGit/.fm_vcs/
+SyntaxSanctuaryClock/asistencia_db.json
+SyntaxSanctuaryLaundry/server_inventory.json
