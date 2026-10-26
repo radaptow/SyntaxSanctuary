@@ -5,8 +5,6 @@ session_start();
 
 date_default_timezone_set('America/Mexico_City');
 
-require_once "./config.php";
-
 /*
  * ============================================================
  * hkpgReloj
@@ -22,7 +20,7 @@ require_once "./config.php";
  * CONFIGURACIÓN
  * ============================================================ */
 
-const ACCESS_PIN = '2708';
+const ACCESS_PIN = '';
 
 const DATA_FILE = __DIR__ . '/asistencia_db.json';
 
