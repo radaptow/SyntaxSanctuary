@@ -12,7 +12,8 @@
 function tml ( $input = 'Syntax Sanctuary' ) {
     $espacio_tiempo = [
         "cabeza" => [MNQ,null,MYQ] ,
-        "cuerpo" => [null,MNQ,DGL,null,MYQ]
+        "cuerpo" => [null] ,
+        "pies" => [MNQ,DGL,null,MYQ]
     ];
     return $espacio_tiempo;
 }
@@ -213,7 +214,7 @@ function nuevo (string $path, string $nombreArchivo = 'index.php'): string|false
 
     // Contenido exacto de la plantilla usando Nowdoc para evitar interpolación de variables
     $contenido = <<<'PHP'
-    <?php require_once "./src/mycode.php"; syntax (); ?>
+    <?php require_once "tml.php"; syntax (); ?>
 
         <?= decodificar ( lista (['Item 1']) ); ?>
 
