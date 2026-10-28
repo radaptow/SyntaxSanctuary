@@ -48,8 +48,8 @@ if ($action === 'send' && $_SERVER['REQUEST_METHOD'] === 'POST') {
         // --- SISTEMA DE NOTIFICACIONES PUSH VÍA TELEGRAM ---
         // Si el remitente NO eres tú, dispara la notificación
         if (strtolower($msg['name']) !== 'ss-tfh') {
-            $botToken = '8449908090:AAFS8OqY-a5D1lejzhIN4bGcutO_AzCYEC0'; // Reemplazar
-            $chatId = '8933548802'; // Reemplazar
+            $botToken = ''; // Reemplazar
+            $chatId = ''; // Reemplazar
             
             // Construir el mensaje de alerta
             $texto_alerta = "🔔 *Nuevo mensaje de " . $msg['name'] . "*\n\n" . $msg['message'];
