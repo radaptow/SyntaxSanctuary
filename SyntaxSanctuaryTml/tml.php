@@ -10,6 +10,11 @@
  */
 
 function tml ( $input = 'Syntax Sanctuary' ) {
+    /**
+     * Desarrolla tu version aqui 
+     * utilizando esta estructura de datos (array)
+     * mas flexible :) happy coding.
+     */
     $espacio_tiempo = [
         "cabeza" => [MNQ,null,MYQ] ,
         "cuerpo" => [null] ,
