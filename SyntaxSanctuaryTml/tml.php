@@ -266,11 +266,35 @@ function decodificar ($string) {
 // POO (programacion orientada a objetos)
 
 class ssString {
-    public function __construct ($longiud = 16 , $texto) {
+    public function __construct ($longiud , $texto) {
         if (strlen ($texto) === $longiud && strlen ($texto) >= $longiud || strlen ($texto) <= $longiud && strlen ($texto) >= $longiud) {
             return true;
         } else {
             return false;
         }
+    }
+
+    public function notNbs ($string) {
+        $caracteres = str_split($string);
+        foreach ($caracteres as $caracter) {
+            if (is_numeric($caracter)) {
+                break;
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public function notLrs ($string) {
+        $caracteres = str_split($string);
+        foreach ($caracteres as $caracter) {
+            if (is_numeric($caracter)) {
+                continue;
+            } else {
+                break;
+                return false;
+            }
+        }
+        return true;
     }
 }
