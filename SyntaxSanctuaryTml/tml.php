@@ -232,6 +232,10 @@ function codigocss ($path) {
     echo '<link rel="stylesheet" href="'.$path.'">';
 }
 
+function codcss ($css) {
+    echo '<style>'.$css.'</style>';
+}
+
 function syntax ($title = 'AryiCodTel',$seo = '') {
     echo estructura ( '!DOCTYPE html' ) .
      estructura ( 'html lang=es' ) .
@@ -257,5 +261,5 @@ function decodificar ($string) {
 // POO (programacion orientada a objetos)
 
 class ssString {
-    
+
 }
