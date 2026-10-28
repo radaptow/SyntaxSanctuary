@@ -266,5 +266,11 @@ function decodificar ($string) {
 // POO (programacion orientada a objetos)
 
 class ssString {
-
+    public function __construct ($longiud = 16 , $texto) {
+        if (strlen ($texto) === $longiud && strlen ($texto) >= $longiud || strlen ($texto) <= $longiud && strlen ($texto) >= $longiud) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
