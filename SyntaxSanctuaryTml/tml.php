@@ -253,3 +253,9 @@ function sanctuary () {
 function decodificar ($string) {
     return htmlspecialchars_decode($string, ENT_QUOTES);
 }
+
+// POO (programacion orientada a objetos)
+
+class ssString {
+    
+}
