@@ -60,6 +60,42 @@ function calcularPagoTurno(
     }
 }
 
+function resolverEcuacionLineal(float $a, float $b, float $c) {
+
+    if ($a == 0) {return 'Erorr divisor es 0';}
+    // ecuacion lineal clasica $ax + $b = $c
+    #para despejar x aplicamos operaciones inversas
+    // ax = c - b
+    // x = c - b
+    //     -----
+    //       a
+    $y = $c - $b;
+    $x = $y / $a;
+    return $x;
+}
+
+function calcularProporcion ($a, $b, $c) {
+    if ($a === 0) {
+        return 'Error division sobre 0'; // error division entre 0
+    } else {
+        /**
+         * a  - c
+         * -- - --
+         * b    x
+         * 
+         * fracciones igualadas forman
+         * una proporcion matematica
+         * 
+         * x = b . c
+         *     -----
+         *       a
+         */
+        $igualdad = $b * $c;
+        $x = $igualdad / $a;
+        return $x;
+    }
+}
+
 function encabezado (string $texto = 'default' , string $tamano = 'default') {
 
     if ($texto === 'default') {
