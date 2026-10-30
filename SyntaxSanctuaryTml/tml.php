@@ -15,12 +15,32 @@ function tml ( $input = 'Syntax Sanctuary' ) {
      * utilizando esta estructura de datos (array)
      * mas flexible :) happy coding.
      */
+
+    header('Content-Type: application/json; charset=utf-8');
+    $ollamaUrl = 'http://100.115.1.71:11434';
+
+    $ch = curl_init("$ollamaUrl/api/tags");
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT => 5
+    ]);
+    $res = curl_exec($ch);
+    $err = curl_error($ch);
+    curl_close($ch);
+
+    if ($err || !$res) {
+        echo json_encode(['ok' => false, 'error' => 'No se pudo conectar con Ollama en 127.0.0.1:11434']);
+        exit;
+    }
+
     $espacio_tiempo = [
         "cabeza" => [MNQ,null,MYQ] ,
-        "cuerpo" => [null] ,
+        "cuerpo" => [$res] ,
         "pies" => [MNQ,DGL,null,MYQ]
     ];
+
     return $espacio_tiempo;
+    exit;
 }
 
 function evaluarMatematicas (int $a , int $b) {
