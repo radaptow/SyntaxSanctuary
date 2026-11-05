@@ -10,11 +10,37 @@
  */
 
 function tml ( $input = 'Syntax Sanctuary' ) {
+    /**
+     * Desarrolla tu version aqui 
+     * utilizando esta estructura de datos (array)
+     * mas flexible :) happy coding.
+     */
+
+    header('Content-Type: application/json; charset=utf-8');
+    $ollamaUrl = 'http://100.115.1.71:11434';
+
+    $ch = curl_init("$ollamaUrl/api/tags");
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT => 5
+    ]);
+    $res = curl_exec($ch);
+    $err = curl_error($ch);
+    curl_close($ch);
+
+    if ($err || !$res) {
+        echo json_encode(['ok' => false, 'error' => 'No se pudo conectar con Ollama en 127.0.0.1:11434']);
+        exit;
+    }
+
     $espacio_tiempo = [
         "cabeza" => [MNQ,null,MYQ] ,
-        "cuerpo" => [null,MNQ,DGL,null,MYQ]
+        "cuerpo" => [$res] ,
+        "pies" => [MNQ,DGL,null,MYQ]
     ];
+
     return $espacio_tiempo;
+    exit;
 }
 
 function evaluarMatematicas (int $a , int $b) {
@@ -51,6 +77,42 @@ function calcularPagoTurno(
         return 0;
     } else {
         return $pago_neto;
+    }
+}
+
+function resolverEcuacionLineal(float $a, float $b, float $c) {
+
+    if ($a == 0) {return 'Erorr divisor es 0';}
+    // ecuacion lineal clasica $ax + $b = $c
+    #para despejar x aplicamos operaciones inversas
+    // ax = c - b
+    // x = c - b
+    //     -----
+    //       a
+    $y = $c - $b;
+    $x = $y / $a;
+    return $x;
+}
+
+function calcularProporcion ($a, $b, $c) {
+    if ($a === 0) {
+        return 'Error division sobre 0'; // error division entre 0
+    } else {
+        /**
+         * a  - c
+         * -- - --
+         * b    x
+         * 
+         * fracciones igualadas forman
+         * una proporcion matematica
+         * 
+         * x = b . c
+         *     -----
+         *       a
+         */
+        $igualdad = $b * $c;
+        $x = $igualdad / $a;
+        return $x;
     }
 }
 
@@ -213,7 +275,7 @@ function nuevo (string $path, string $nombreArchivo = 'index.php'): string|false
 
     // Contenido exacto de la plantilla usando Nowdoc para evitar interpolación de variables
     $contenido = <<<'PHP'
-    <?php require_once "./src/mycode.php"; syntax (); ?>
+    <?php require_once "tml.php"; syntax (); ?>
 
         <?= decodificar ( lista (['Item 1']) ); ?>
 
@@ -229,6 +291,10 @@ function nuevo (string $path, string $nombreArchivo = 'index.php'): string|false
 
 function codigocss ($path) {
     echo '<link rel="stylesheet" href="'.$path.'">';
+}
+
+function codcss ($css) {
+    echo '<style>'.$css.'</style>';
 }
 
 function syntax ($title = 'AryiCodTel',$seo = '') {
@@ -251,4 +317,40 @@ function sanctuary () {
 
 function decodificar ($string) {
     return htmlspecialchars_decode($string, ENT_QUOTES);
+}
+
+// POO (programacion orientada a objetos)
+
+class ssString {
+    public function __construct ($longiud , $texto) {
+        if (strlen ($texto) === $longiud && strlen ($texto) >= $longiud || strlen ($texto) <= $longiud && strlen ($texto) >= $longiud) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function notNbs ($string) {
+        $caracteres = str_split($string);
+        foreach ($caracteres as $caracter) {
+            if (is_numeric($caracter)) {
+                break;
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public function notLrs ($string) {
+        $caracteres = str_split($string);
+        foreach ($caracteres as $caracter) {
+            if (is_numeric($caracter)) {
+                continue;
+            } else {
+                break;
+                return false;
+            }
+        }
+        return true;
+    }
 }
