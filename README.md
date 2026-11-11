@@ -20,7 +20,7 @@
 
 *Santuario digital y laboratorio de desarrollo de software sobrio, arquitecturas monolíticas de alto rendimiento y pipelines autónomos.*
 
-[Landing Page Live](https://radaptow.github.io/syntaxsanctuary) • [Perfil de Autor](https://github.com/radaptow) • [Reportar Auditoría](mailto:mostlyphpsoftware@gmail.com)
+[Landing Page Live](https://syntaxsanctuary.com) • [Perfil de Autor](https://github.com/radaptow) • [Reportar Auditoría](mailto:mostlyphpsoftware@gmail.com)
 
 ---
 
