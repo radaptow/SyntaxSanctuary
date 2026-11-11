@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SyntaxSanctuary | Computadoras • Programación • Internet</title>
+  
+  <!-- Tipografías de Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            void: '#07090e',
+            cyberDark: '#0a0d14',
+            cyberCard: 'rgba(13, 17, 26, 0.72)',
+            neonCyan: '#00ffe0',
+            neonMagenta: '#f72585',
+            neonPurple: '#7209b7',
+            matrixGreen: '#00ff66'
+          },
+          fontFamily: {
+            mono: ['"Fira Code"', 'monospace'],
+            sans: ['"Space Grotesk"', 'sans-serif']
+          },
+          animation: {
+            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'glow-cyan': 'glowCyan 2.5s ease-in-out infinite alternate',
+            'scanline': 'scanline 8s linear infinite'
+          },
+          keyframes: {
+            glowCyan: {
+              '0%': { boxShadow: '0 0 10px rgba(0, 255, 224, 0.2), inset 0 0 10px rgba(0, 255, 224, 0.1)' },
+              '100%': { boxShadow: '0 0 25px rgba(0, 255, 224, 0.5), inset 0 0 20px rgba(0, 255, 224, 0.2)' }
+            },
+            scanline: {
+              '0%': { transform: 'translateY(-100%)' },
+              '100%': { transform: 'translateY(1000%)' }
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Estilos personalizados y utilidades de efectos */
+    body {
+      background-color: #07090e;
+      color: #e2e8f0;
+      font-family: 'Space Grotesk', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Fondo cuadriculado Cyber-Grid */
+    .cyber-grid {
+      background-image: 
+        linear-gradient(to right, rgba(0, 255, 224, 0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 255, 224, 0.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    /* Efecto Glassmorphism con borde gradiente */
+    .glass-panel {
+      background: rgba(10, 13, 20, 0.75);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(0, 255, 224, 0.15);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .glass-panel:hover {
+      border-color: rgba(0, 255, 224, 0.45);
+      box-shadow: 0 10px 30px -10px rgba(0, 255, 224, 0.15);
+    }
+
+    /* Scrollbar personalizada estilo terminal */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0a0d14;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #00ffe0;
+    }
+
+    /* Scanlines sutiles para pantalla terminal */
+    .crt-overlay::before {
+      content: " ";
+      display: block;
+      position: absolute;
+      top: 0; left: 0; bottom: 0; right: 0;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+      background-size: 100% 4px;
+      z-index: 2;
+      pointer-events: none;
+      opacity: 0.4;
+    }
+  </style>
+</head>
+<body class="cyber-grid relative min-h-screen selection:bg-neonCyan selection:text-black">
+
+  <!-- Canvas interactivo de partículas de fondo -->
+  <canvas id="ambient-canvas" class="fixed inset-0 pointer-events-none z-0 opacity-40"></canvas>
+
+  <!-- Luces ambientales de fondo -->
+  <div class="fixed top-[-10vw] left-[-10vw] w-[40vw] h-[40vw] rounded-full bg-neonCyan/10 blur-[130px] pointer-events-none"></div>
+  <div class="fixed bottom-[-10vw] right-[-10vw] w-[45vw] h-[45vw] rounded-full bg-neonMagenta/10 blur-[150px] pointer-events-none"></div>
+
+  <!-- Barra de Notificación Flotante (Toast) -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none">
+    <div class="glass-panel border-neonCyan/60 text-neonCyan px-4 py-3 rounded-lg shadow-2xl flex items-center space-x-3 text-sm font-mono">
+      <svg class="w-5 h-5 flex-shrink-0 text-neonCyan" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+      </svg>
+      <span id="toast-message">Copiado al portapapeles</span>
+    </div>
+  </div>
+
+  <div class="relative z-10 flex flex-col min-h-screen">
+
+    <!-- ================= NAVBAR ================= -->
+    <header class="w-full border-b border-cyan-500/10 bg-cyberDark/80 backdrop-blur-md sticky top-0 z-40">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        <!-- Logo / Marca -->
+        <a href="#hero" class="flex items-center space-x-3 group">
+          <div class="w-9 h-9 rounded-lg bg-cyberDark border border-neonCyan/40 flex items-center justify-center font-mono text-neonCyan font-bold text-base shadow-[0_0_12px_rgba(0,255,224,0.3)] group-hover:scale-105 transition-transform">
+            &gt;_
+          </div>
+          <div class="flex flex-col">
+            <span class="font-bold tracking-tight text-white group-hover:text-neonCyan transition-colors text-lg">
+              SyntaxSanctuary
+            </span>
+            <span class="text-[10px] font-mono text-gray-400 tracking-widest uppercase">
+              radaptow • node:01
+            </span>
+          </div>
+        </a>
+
+        <!-- Indicador de Estado Standby en el Header -->
+        <div class="hidden sm:flex items-center space-x-2 px-3 py-1.5 rounded-full bg-slate-900/80 border border-emerald-500/30 text-xs font-mono">
+          <span class="relative flex h-2.5 w-2.5">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+          </span>
+          <span class="text-emerald-400 font-semibold tracking-wider">STANDBY DEPLOYMENT</span>
+        </div>
+
+        <!-- Botón a Perfil de GitHub -->
+        <a href="https://github.com/radaptow" target="_blank" rel="noopener noreferrer" 
+           class="flex items-center space-x-2 px-4 py-2 rounded-lg bg-white/5 hover:bg-neonCyan/10 border border-white/10 hover:border-neonCyan/50 text-white hover:text-neonCyan transition-all duration-200 text-sm font-mono">
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          <span class="hidden md:inline">github.com/radaptow</span>
+          <span class="md:hidden">GitHub</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- ================= HERO SECTION ================= -->
+    <main class="flex-grow">
+      <section id="hero" class="relative pt-12 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div class="text-center max-w-3xl mx-auto space-y-6">
+          
+          <!-- Radar Status Pill -->
+          <div class="inline-flex items-center space-x-2.5 px-4 py-2 rounded-full glass-panel border-cyan-500/30 text-xs sm:text-sm font-mono text-gray-300 shadow-[0_0_15px_rgba(0,255,224,0.15)]">
+            <span class="relative flex h-3 w-3">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-neonCyan opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-3 w-3 bg-neonCyan"></span>
+            </span>
+            <span class="text-white font-medium">ESTADO:</span>
+            <span class="text-neonCyan font-bold tracking-wider">STANDBY / DESPLIEGUE EN CURSO</span>
+          </div>
+
+          <!-- Main Title with Gradient Glow -->
+          <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white">
+            <span class="block">Syntax<span class="text-transparent bg-clip-text bg-gradient-to-r from-neonCyan via-teal-300 to-neonMagenta">Sanctuary</span></span>
+          </h1>
+
+          <!-- Slogan -->
+          <p class="text-lg sm:text-2xl font-mono text-neonCyan/90 font-medium tracking-wide">
+            Computadoras <span class="text-neonMagenta">•</span> Programación <span class="text-neonMagenta">•</span> Internet
+          </p>
+
+          <!-- Narrative description -->
+          <p class="text-gray-400 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto">
+            Santuario digital y laboratorio de ingeniería de software. Diseñado bajo filosofía monolítica eficiente, orquestación de agentes autónomos y estándares de código abierto auditado (<strong class="text-gray-200">OSCR</strong>).
+          </p>
+
+          <!-- Snippet Copiable de Quick Start -->
+          <div class="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
+            <div class="w-full sm:w-auto flex items-center justify-between glass-panel px-4 py-2.5 rounded-lg border-cyan-500/20 font-mono text-xs sm:text-sm text-gray-300 space-x-3">
+              <span class="text-neonCyan select-none">$</span>
+              <code id="clone-cmd" class="text-gray-200 select-all overflow-x-auto">git clone https://github.com/radaptow/syntaxsanctuary.git</code>
+              <button onclick="copyToClipboard('git clone https://github.com/radaptow/syntaxsanctuary.git', 'Comando git copiado al portapapeles')" 
+                      title="Copiar comando" 
+                      class="text-gray-400 hover:text-neonCyan focus:outline-none p-1 transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                </svg>
+              </button>
+            </div>
+
+            <a href="https://github.com/radaptow" target="_blank" rel="noopener noreferrer"
+               class="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 rounded-lg bg-gradient-to-r from-cyan-500 to-teal-400 text-black font-semibold text-sm hover:opacity-95 transition-all shadow-[0_0_20px_rgba(0,255,224,0.3)] hover:scale-[1.02]">
+              Explorar Ecosistema
+              <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- ================= LIVE INTERACTIVE TERMINAL ================= -->
+        <div class="mt-12 max-w-4xl mx-auto">
+          <div class="relative glass-panel rounded-xl overflow-hidden shadow-2xl border border-cyan-500/30 crt-overlay">
+            
+            <!-- Terminal Header -->
+            <div class="bg-slate-900/90 px-4 py-3 border-b border-cyan-500/20 flex items-center justify-between select-none">
+              <div class="flex items-center space-x-2">
+                <span class="w-3 h-3 rounded-full bg-red-500/80 inline-block shadow-[0_0_6px_rgba(239,68,68,0.6)]"></span>
+                <span class="w-3 h-3 rounded-full bg-amber-500/80 inline-block shadow-[0_0_6px_rgba(245,158,11,0.6)]"></span>
+                <span class="w-3 h-3 rounded-full bg-emerald-500/80 inline-block shadow-[0_0_6px_rgba(16,185,129,0.6)]"></span>
+                <span class="ml-3 font-mono text-xs text-gray-400 flex items-center">
+                  <svg class="w-3.5 h-3.5 mr-1 text-neonCyan" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                  </svg>
+                  root@syntaxsanctuary: ~ (bash / node-active)
+                </span>
+              </div>
+              <div class="flex items-center space-x-2 text-[11px] font-mono text-neonCyan/70">
+                <span class="hidden sm:inline">UTF-8</span>
+                <span class="hidden sm:inline">•</span>
+                <span class="text-neonMagenta">LIVE_FEED</span>
+              </div>
+            </div>
+
+            <!-- Terminal Output Area -->
+            <div id="terminal-screen" class="p-4 sm:p-6 font-mono text-xs sm:text-sm bg-[#06080d]/90 text-gray-300 min-h-[290px] max-h-[420px] overflow-y-auto space-y-2">
+              <div id="terminal-logs">
+                <!-- Se poblará dinámicamente con la simulación de arranque y respuestas -->
+              </div>
+            </div>
+
+            <!-- Terminal Interactive Input -->
+            <form id="terminal-form" class="bg-black/70 px-4 py-3 border-t border-cyan-500/20 flex items-center space-x-2 font-mono text-xs sm:text-sm">
+              <span class="text-neonCyan select-none">sanctuary@radaptow:~$</span>
+              <input type="text" id="terminal-input" autocomplete="off" spellcheck="false" 
+                     placeholder="Escribe 'help', 'status', 'repos', 'whoami' o 'contact'..."
+                     class="flex-1 bg-transparent text-white focus:outline-none placeholder-gray-600 caret-neonCyan">
+              <button type="submit" class="px-2.5 py-1 rounded bg-neonCyan/10 hover:bg-neonCyan/20 text-neonCyan border border-neonCyan/30 text-xs transition-colors">
+                Ejecutar
+              </button>
+            </form>
+
+            <!-- Botones de comandos rápidos (Mobile & Desktop UX) -->
+            <div class="bg-slate-950/80 px-4 py-2 border-t border-slate-800 flex items-center flex-wrap gap-1.5 text-[11px] font-mono text-gray-400">
+              <span class="text-gray-500 mr-1 select-none">Comandos rápidos:</span>
+              <button onclick="runCommand('help')" class="px-2 py-0.5 rounded bg-white/5 hover:bg-neonCyan/20 hover:text-neonCyan border border-white/10 transition-colors">help</button>
+              <button onclick="runCommand('status')" class="px-2 py-0.5 rounded bg-white/5 hover:bg-neonCyan/20 hover:text-neonCyan border border-white/10 transition-colors">status</button>
+              <button onclick="runCommand('repos')" class="px-2 py-0.5 rounded bg-white/5 hover:bg-neonCyan/20 hover:text-neonCyan border border-white/10 transition-colors">repos</button>
+              <button onclick="runCommand('whoami')" class="px-2 py-0.5 rounded bg-white/5 hover:bg-neonCyan/20 hover:text-neonCyan border border-white/10 transition-colors">whoami</button>
+              <button onclick="runCommand('contact')" class="px-2 py-0.5 rounded bg-white/5 hover:bg-neonCyan/20 hover:text-neonCyan border border-white/10 transition-colors">contact</button>
+              <button onclick="runCommand('clear')" class="px-2 py-0.5 rounded bg-white/5 hover:bg-red-400/20 hover:text-red-400 border border-white/10 transition-colors">clear</button>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ================= CUADRÍCULA DE PROYECTOS DEL ECOSISTEMA ================= -->
+      <section id="ecosystem" class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 pb-4 border-b border-cyan-500/10 gap-4">
+          <div>
+            <div class="flex items-center space-x-2 font-mono text-neonCyan text-xs tracking-widest uppercase">
+              <span class="w-2 h-2 rounded-full bg-neonCyan"></span>
+              <span>Arquitectura & Ecosistema</span>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1">
+              Pilares de SyntaxSanctuary
+            </h2>
+          </div>
+          <p class="text-gray-400 text-sm font-mono max-w-md">
+            Desarrollo de alto rendimiento, código sobrio y herramientas autónomas preparadas para el despliegue.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          
+          <!-- Card 1: AryiCodTel -->
+          <div class="glass-panel p-6 rounded-xl flex flex-col justify-between group relative overflow-hidden">
+            <div class="absolute -top-12 -right-12 w-24 h-24 bg-neonCyan/10 rounded-full blur-xl group-hover:bg-neonCyan/20 transition-all"></div>
+            <div>
+              <div class="w-12 h-12 rounded-lg bg-cyberDark border border-neonCyan/40 flex items-center justify-center text-neonCyan mb-5 group-hover:scale-110 transition-transform">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                </svg>
+              </div>
+              <div class="flex items-center justify-between mb-1">
+                <h3 class="text-lg font-bold text-white group-hover:text-neonCyan transition-colors">AryiCodTel</h3>
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">AGENT_ORCH</span>
+              </div>
+              <p class="text-gray-400 text-xs sm:text-sm leading-relaxed mt-2">
+                Orquestador de agentes autónomos y pipelines de inferencia local. Manejo determinista de flujos de código y telemetría de tareas complejas.
+              </p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono text-gray-500">
+              <span>Status: <strong class="text-emerald-400">Activo</strong></span>
+              <span class="text-neonCyan group-hover:translate-x-1 transition-transform">&rarr;</span>
+            </div>
+          </div>
+
+          <!-- Card 2: Core Monolith Suite -->
+          <div class="glass-panel p-6 rounded-xl flex flex-col justify-between group relative overflow-hidden">
+            <div class="absolute -top-12 -right-12 w-24 h-24 bg-neonMagenta/10 rounded-full blur-xl group-hover:bg-neonMagenta/20 transition-all"></div>
+            <div>
+              <div class="w-12 h-12 rounded-lg bg-cyberDark border border-neonMagenta/40 flex items-center justify-center text-neonMagenta mb-5 group-hover:scale-110 transition-transform">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                </svg>
+              </div>
+              <div class="flex items-center justify-between mb-1">
+                <h3 class="text-lg font-bold text-white group-hover:text-neonMagenta transition-colors">Core Monolith Suite</h3>
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-pink-500/10 text-pink-300 border border-pink-500/20">PHP_NATIVE</span>
+              </div>
+              <p class="text-gray-400 text-xs sm:text-sm leading-relaxed mt-2">
+                Arquitectura en PHP monolítico moderno y JavaScript nativo. Cero dependencias innecesarias, máxima velocidad de respuesta y mantenibilidad a largo plazo.
+              </p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono text-gray-500">
+              <span>Dependencias: <strong class="text-neonCyan">0 Bloat</strong></span>
+              <span class="text-neonMagenta group-hover:translate-x-1 transition-transform">&rarr;</span>
+            </div>
+          </div>
+
+          <!-- Card 3: OSCR Security & Audit -->
+          <div class="glass-panel p-6 rounded-xl flex flex-col justify-between group relative overflow-hidden">
+            <div class="absolute -top-12 -right-12 w-24 h-24 bg-teal-400/10 rounded-full blur-xl group-hover:bg-teal-400/20 transition-all"></div>
+            <div>
+              <div class="w-12 h-12 rounded-lg bg-cyberDark border border-teal-400/40 flex items-center justify-center text-teal-300 mb-5 group-hover:scale-110 transition-transform">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                </svg>
+              </div>
+              <div class="flex items-center justify-between mb-1">
+                <h3 class="text-lg font-bold text-white group-hover:text-teal-300 transition-colors">OSCR Standard</h3>
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">SECURITY</span>
+              </div>
+              <p class="text-gray-400 text-xs sm:text-sm leading-relaxed mt-2">
+                Open Source Code Release model. Directrices de seguridad integral, verificación criptográfica y auditoría continua para despliegues confiables.
+              </p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono text-gray-500">
+              <span>Auditoría: <strong class="text-emerald-400">Verificado</strong></span>
+              <span class="text-teal-300 group-hover:translate-x-1 transition-transform">&rarr;</span>
+            </div>
+          </div>
+
+          <!-- Card 4: Edge AI & Whisper -->
+          <div class="glass-panel p-6 rounded-xl flex flex-col justify-between group relative overflow-hidden">
+            <div class="absolute -top-12 -right-12 w-24 h-24 bg-purple-500/10 rounded-full blur-xl group-hover:bg-purple-500/20 transition-all"></div>
+            <div>
+              <div class="w-12 h-12 rounded-lg bg-cyberDark border border-purple-400/40 flex items-center justify-center text-purple-300 mb-5 group-hover:scale-110 transition-transform">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                </svg>
+              </div>
+              <div class="flex items-center justify-between mb-1">
+                <h3 class="text-lg font-bold text-white group-hover:text-purple-300 transition-colors">Edge AI & Whisper</h3>
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-500/10 text-purple-300 border border-purple-500/20">LOCAL_LLM</span>
+              </div>
+              <p class="text-gray-400 text-xs sm:text-sm leading-relaxed mt-2">
+                Integración de modelos locales de lenguaje y transcripción de voz (Whisper) en el borde sin enviar telemetría a servidores de terceros.
+              </p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono text-gray-500">
+              <span>Privacidad: <strong class="text-purple-300">100% Local</strong></span>
+              <span class="text-purple-400 group-hover:translate-x-1 transition-transform">&rarr;</span>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ================= CONTACT & ACCESS SECTION ================= -->
+      <section class="py-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+        <div class="glass-panel p-8 sm:p-10 rounded-2xl border-cyan-500/30 relative overflow-hidden">
+          <div class="absolute -right-20 -bottom-20 w-64 h-64 bg-neonCyan/10 rounded-full blur-3xl pointer-events-none"></div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            <div class="space-y-4">
+              <span class="text-xs font-mono text-neonCyan tracking-wider uppercase font-semibold">
+                // Canal Seguro de Comunicación
+              </span>
+              <h3 class="text-2xl sm:text-3xl font-bold text-white">
+                ¿Interesado en colaborar o consultar auditorías?
+              </h3>
+              <p class="text-gray-400 text-sm leading-relaxed">
+                El ecosistema está en fase de despliegue activo. Puedes conectar para reportes de seguridad, consultas técnicas sobre Monolith Suite o integraciones con AryiCodTel.
+              </p>
+              
+              <div class="flex flex-col space-y-2 pt-2">
+                <div class="flex items-center space-x-3 text-sm text-gray-300 font-mono">
+                  <span class="text-neonCyan">Email:</span>
+                  <a href="mailto:mostlyphpsoftware@gmail.com" class="hover:text-neonCyan underline decoration-cyan-500/40 transition-colors">
+                    mostlyphpsoftware@gmail.com
+                  </a>
+                </div>
+                <div class="flex items-center space-x-3 text-sm text-gray-300 font-mono">
+                  <span class="text-neonMagenta">Dev:</span>
+                  <a href="https://github.com/radaptow" target="_blank" rel="noopener noreferrer" class="hover:text-neonMagenta underline decoration-pink-500/40 transition-colors">
+                    radaptow (GitHub Profile)
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Botones de Acción Rápida -->
+            <div class="flex flex-col space-y-3.5 bg-slate-950/60 p-6 rounded-xl border border-white/5">
+              <div class="text-xs font-mono text-gray-400 uppercase tracking-widest mb-1">
+                Accesos Directos
+              </div>
+              
+              <a href="https://github.com/radaptow" target="_blank" rel="noopener noreferrer"
+                 class="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-neonCyan/10 border border-white/10 hover:border-neonCyan/40 text-white hover:text-neonCyan transition-all group font-mono text-xs sm:text-sm">
+                <span class="flex items-center space-x-3">
+                  <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+                  </svg>
+                  <span>Repositorios en GitHub</span>
+                </span>
+                <span class="group-hover:translate-x-1 transition-transform">&rarr;</span>
+              </a>
+
+              <button onclick="copyToClipboard('mostlyphpsoftware@gmail.com', 'Correo de contacto copiado')"
+                      class="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-neonMagenta/10 border border-white/10 hover:border-neonMagenta/40 text-white hover:text-neonMagenta transition-all group font-mono text-xs sm:text-sm text-left">
+                <span class="flex items-center space-x-3">
+                  <svg class="w-5 h-5 text-neonMagenta" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                  </svg>
+                  <span>Copiar Dirección de Email</span>
+                </span>
+                <span class="text-xs bg-white/10 px-2 py-0.5 rounded text-gray-300">Copiar</span>
+              </button>
+
+              <button onclick="runCommand('status')"
+                      class="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-emerald-500/10 border border-white/10 hover:border-emerald-500/40 text-white hover:text-emerald-300 transition-all group font-mono text-xs sm:text-sm text-left">
+                <span class="flex items-center space-x-3">
+                  <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                  <span>Verificar Diagnóstico en Terminal</span>
+                </span>
+                <span class="text-xs font-mono text-emerald-400">CHECK</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="border-t border-cyan-500/10 bg-black/60 backdrop-blur-md py-8 px-4 sm:px-6 lg:px-8">
+      <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-gray-500">
+        <div class="flex items-center space-x-2">
+          <span class="text-neonCyan font-bold">SyntaxSanctuary</span>
+          <span>© <span id="year-tag"></span></span>
+          <span>•</span>
+          <span>Arquitectura radaptow</span>
+        </div>
+        
+        <div class="flex items-center space-x-6">
+          <span class="text-emerald-400/80">GitHub Pages Standby Node</span>
+          <span>•</span>
+          <a href="https://github.com/radaptow" target="_blank" rel="noopener noreferrer" class="hover:text-neonCyan transition-colors">
+            github.com/radaptow
+          </a>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- ================= JAVASCRIPT LOGIC ================= -->
+  <script>
+    // Año actual dinámico
+    document.getElementById('year-tag').textContent = new Date().getFullYear();
+
+    // ================= TOAST NOTIFICATION HANDLER =================
+    let toastTimeout;
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toast-message');
+      toastMsg.textContent = message;
+      
+      toast.classList.remove('translate-y-24', 'opacity-0', 'pointer-events-none');
+      toast.classList.add('translate-y-0', 'opacity-100');
+      
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-24', 'opacity-0', 'pointer-events-none');
+      }, 2800);
+    }
+
+    // Copiado seguro usando document.execCommand para máxima compatibilidad iframe
+    function copyToClipboard(text, successMessage = 'Copiado al portapapeles') {
+      const tempInput = document.createElement('textarea');
+      tempInput.value = text;
+      tempInput.style.position = 'fixed';
+      tempInput.style.opacity = '0';
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      try {
+        const successful = document.execCommand('copy');
+        if (successful) {
+          showToast(successMessage);
+        } else {
+          showToast('No se pudo copiar el texto.');
+        }
+      } catch (err) {
+        showToast('Error al copiar');
+      }
+      document.body.removeChild(tempInput);
+    }
+
+    // ================= SIMULACIÓN DE TERMINAL INTERACTIVA =================
+    const terminalLogs = document.getElementById('terminal-logs');
+    const terminalScreen = document.getElementById('terminal-screen');
+    const terminalInput = document.getElementById('terminal-input');
+    const terminalForm = document.getElementById('terminal-form');
+
+    // Secuencia de booteo inicial
+    const bootSequence = [
+      { text: '[INIT] Inicializando SyntaxSanctuary Node OS v0.9.4...', color: 'text-gray-400' },
+      { text: '[CORE] Cargando arquitectura Monolith Suite (PHP & Native JS)...', color: 'text-cyan-400' },
+      { text: '[AGENT] Desplegando orquestador AryiCodTel en entorno local...', color: 'text-purple-400' },
+      { text: '[SEC] Verificando especificaciones criptográficas OSCR Standard... [PASS]', color: 'text-emerald-400' },
+      { text: '[READY] Red standby lista en GitHub Pages. Escribe "help" para ver comandos.', color: 'text-neonCyan' }
+    ];
+
+    function appendTerminalLine(htmlContent) {
+      const div = document.createElement('div');
+      div.className = 'leading-relaxed break-words';
+      div.innerHTML = htmlContent;
+      terminalLogs.appendChild(div);
+      terminalScreen.scrollTop = terminalScreen.scrollHeight;
+    }
+
+    // Ejecución progresiva del booteo
+    let bootIndex = 0;
+    function runBoot() {
+      if (bootIndex < bootSequence.length) {
+        const item = bootSequence[bootIndex];
+        appendTerminalLine(`<span class="${item.color}">${item.text}</span>`);
+        bootIndex++;
+        setTimeout(runBoot, 380);
+      }
+    }
+
+    // Manejo de Comandos
+    const commands = {
+      help: () => `
+        <div class="text-cyan-300 font-semibold mb-1">Comandos disponibles:</div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-1 pl-2 text-xs">
+          <div><span class="text-neonCyan font-bold">status</span>   - Muestra telemetría y estado de despliegue</div>
+          <div><span class="text-neonCyan font-bold">repos</span>    - Lista de proyectos y módulos activos</div>
+          <div><span class="text-neonCyan font-bold">whoami</span>   - Perfil de radaptow y filosofía técnica</div>
+          <div><span class="text-neonCyan font-bold">contact</span>  - Información de contacto y soporte</div>
+          <div><span class="text-neonCyan font-bold">clear</span>    - Limpia la pantalla de la terminal</div>
+          <div><span class="text-neonCyan font-bold">oscr</span>     - Estándar de código seguro Open Source</div>
+        </div>
+      `,
+      status: () => `
+        <div class="p-2 rounded bg-slate-900 border border-cyan-500/30 text-xs space-y-1">
+          <div class="text-neonCyan font-bold">// TELEMETRÍA DEL SISTEMA</div>
+          <div>ESTADO: <span class="text-emerald-400 font-bold">STANDBY (GitHub Pages Ready)</span></div>
+          <div>HOST: <span class="text-white">syntaxsanctuary.github.io / custom-domain</span></div>
+          <div>ECOSISTEMA: <span class="text-cyan-300">AryiCodTel / Monolith Suite / OSCR</span></div>
+          <div>LATENCIA: <span class="text-emerald-400">14ms (Borde CDN)</span></div>
+          <div>AUDITORÍA: <span class="text-purple-400">Sin dependencias de terceros no verificadas</span></div>
+        </div>
+      `,
+      repos: () => `
+        <div class="text-white space-y-1.5 pl-1">
+          <div><strong class="text-neonCyan">• AryiCodTel:</strong> Motor orquestador de agentes de IA local.</div>
+          <div><strong class="text-neonMagenta">• Core Monolith Suite:</strong> Código en PHP monolítico y JS puro.</div>
+          <div><strong class="text-teal-300">• OSCR Security:</strong> Especificación abierta de seguridad y auditoría.</div>
+          <div><strong class="text-purple-300">• Edge AI & Whisper:</strong> Modelos privados para inferencia y voz.</div>
+          <div class="text-gray-400 text-xs mt-2">Explora el código fuente en: <a href="https://github.com/radaptow" target="_blank" class="text-neonCyan underline">github.com/radaptow</a></div>
+        </div>
+      `,
+      whoami: () => `
+        <div class="text-gray-300 pl-1 text-xs sm:text-sm">
+          <span class="text-neonCyan font-bold">radaptow</span> — Desarrollador y arquitecto de software detrás de <span class="text-white">SyntaxSanctuary</span>.
+          <br>Enfoque: Computadoras, programación eficiente, filosofía Unix y monolitos estables con PHP y tecnologías nativas de la web.
+        </div>
+      `,
+      contact: () => `
+        <div class="text-gray-300 pl-1 space-y-1 text-xs">
+          <div>Canal de comunicación principal: <a href="mailto:mostlyphpsoftware@gmail.com" class="text-neonCyan underline">mostlyphpsoftware@gmail.com</a></div>
+          <div>GitHub: <a href="https://github.com/radaptow" target="_blank" class="text-neonMagenta underline">https://github.com/radaptow</a></div>
+          <div class="text-gray-400">Aceptando reportes de auditoría y consultas técnicas.</div>
+        </div>
+      `,
+      oscr: () => `
+        <div class="p-2 rounded bg-slate-900 border border-teal-500/30 text-xs text-gray-300">
+          <strong class="text-teal-300 font-bold">OSCR (Open Source Code Release)</strong>:
+          <p class="mt-1">Marco de trabajo para la publicación de software autónomo con análisis estático de vulnerabilidades, reducción radical de dependencias externas (Zero-Bloat) y trazabilidad completa de commits.</p>
+        </div>
+      `,
+      clear: () => {
+        terminalLogs.innerHTML = '';
+        return null;
+      }
+    };
+
+    function handleCommand(cmdRaw) {
+      const cmd = cmdRaw.trim().toLowerCase();
+      if (!cmd) return;
+
+      // Echo de lo que escribió el usuario
+      appendTerminalLine(`
+        <div class="flex items-center space-x-2 text-gray-400 mt-2">
+          <span class="text-neonCyan select-none">sanctuary@radaptow:~$</span>
+          <span class="text-white font-semibold">${escapeHtml(cmdRaw)}</span>
+        </div>
+      `);
+
+      if (commands[cmd]) {
+        const output = commands[cmd]();
+        if (output) appendTerminalLine(output);
+      } else {
+        appendTerminalLine(`
+          <span class="text-red-400">Comando no reconocido: "${escapeHtml(cmd)}". Escribe <span class="text-neonCyan font-bold">'help'</span> para la lista de comandos disponibles.</span>
+        `);
+      }
+    }
+
+    function escapeHtml(text) {
+      const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+      return text.replace(/[&<>"']/g, m => map[m]);
+    }
+
+    terminalForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const val = terminalInput.value;
+      if (val.trim()) {
+        handleCommand(val);
+        terminalInput.value = '';
+      }
+    });
+
+    // Función para invocar comandos desde botones de accesos rápidos
+    function runCommand(cmdName) {
+      terminalInput.value = cmdName;
+      handleCommand(cmdName);
+      terminalInput.value = '';
+      terminalScreen.scrollTop = terminalScreen.scrollHeight;
+    }
+
+    // ================= CANVAS DE FONDO SUTIL =================
+    const canvas = document.getElementById('ambient-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      initParticles();
+    }
+
+    function initParticles() {
+      particles = [];
+      const count = Math.floor(canvas.width / 22);
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          size: Math.random() * 1.6 + 0.4,
+          speedY: Math.random() * 0.4 + 0.1,
+          opacity: Math.random() * 0.5 + 0.2,
+          color: Math.random() > 0.6 ? '#00ffe0' : (Math.random() > 0.5 ? '#f72585' : '#4a5568')
+        });
+      }
+    }
+
+    function renderParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = p.opacity;
+        ctx.fillRect(p.x, p.y, p.size, p.size);
+        p.y -= p.speedY;
+        if (p.y < 0) {
+          p.y = canvas.height;
+          p.x = Math.random() * canvas.width;
+        }
+      }
+      requestAnimationFrame(renderParticles);
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+
+    // Arranque de la página
+    window.onload = function() {
+      resizeCanvas();
+      renderParticles();
+      setTimeout(runBoot, 200);
+    };
+  </script>
+</body>
+</html>
