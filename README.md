@@ -1,183 +1,152 @@
+# SyntaxSanctuary `//` mostlyphpsoftware
+
 <div align="center">
 
-  <img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 240' width='150' height='150'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%2334D399'/%3E%3Cstop offset='50%25' stop-color='%2338BDF8'/%3E%3Cstop offset='100%25' stop-color='%23818CF8'/%3E%3C/linearGradient%3E%3ClinearGradient id='g2' x1='0%25' y1='0%25' x2='0%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%236EE7B7'/%3E%3Cstop offset='100%25' stop-color='%233B82F6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='10' y='10' width='220' height='220' rx='48' fill='%230F172A' stroke='url(%23g1)' stroke-width='4'/%3E%3Cpath d='M54 186 V112 C54 66 120 38 120 38 C120 38 186 66 186 112 V186' fill='none' stroke='url(%23g1)' stroke-width='5' stroke-linecap='round' opacity='0.35'/%3E%3Ccircle cx='120' cy='60' r='5' fill='%2334D399'/%3E%3Cpath d='M98 80 C82 80 82 92 82 105 V113 C82 120 72 125 66 125 C72 125 82 130 82 137 V145 C82 158 82 170 98 170' fill='none' stroke='url(%23g1)' stroke-width='8' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M142 80 C158 80 158 92 158 105 V113 C158 120 168 125 174 125 C168 125 158 130 158 137 V145 C158 158 158 170 142 170' fill='none' stroke='url(%23g1)' stroke-width='8' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpolygon points='120,98 135,125 120,152 105,125' fill='url(%23g2)'/%3E%3Cline x1='76' y1='194' x2='164' y2='194' stroke='%23334155' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E" alt="SyntaxSanctuary Logo" />
+```
+  ____              _                ____                  _                             
+ / ___| _   _ _ __ | |_ __ ___  __ / ___|  __ _ _ __   ___| |_ _   _  __ _ _ __ _   _    
+ \___ \| | | | '_ \| __/ _` \ \/ / \___ \ / _` | '_ \ / __| __| | | |/ _` | '__| | | |   
+  ___) | |_| | | | | || (_| |>  <   ___) | (_| | | | | (__| |_| |_| | (_| | |  | |_| |   
+ |____/ \__, |_| |_|\__\__,_/_/\_\ |____/ \__,_|_| |_|\___|\__|\__,_|\__,_|_|   \__, |   
+        |___/                                                                   |___/    
+```
 
-  # SyntaxSanctuary
+**Computadoras • Programación • Internet**
 
-  **Un refugio sagrado para el código limpio, la arquitectura serena y el desarrollo sin ruido.**
+[![Node Status](https://img.shields.io/badge/STATUS-STANDBY%20DEPLOYMENT-00ffe0?style=for-the-badge&labelColor=0a0d14)](https://github.com/radaptow)
+[![Philosophy](https://img.shields.io/badge/PHILOSOPHY-MOSTLY%20PHP-777bb4?style=for-the-badge&logo=php&logoColor=white&labelColor=0a0d14)](https://github.com/radaptow)
+[![Architecture](https://img.shields.io/badge/ARCHITECTURE-MONOLITH%20FIRST-f72585?style=for-the-badge&labelColor=0a0d14)](https://github.com/radaptow)
+[![Standard](https://img.shields.io/badge/SECURITY-OSCR%20VERIFIED-00ff66?style=for-the-badge&labelColor=0a0d14)](https://github.com/radaptow)
 
-  [![Versión](https://img.shields.io/badge/version-1.0.0-34D399?style=for-the-badge&logoColor=white&labelColor=0F172A)](https://github.com/tu-usuario/syntaxsanctuary)
-  [![Estado](https://img.shields.io/badge/build-passing-38BDF8?style=for-the-badge&labelColor=0F172A)](https://github.com/tu-usuario/syntaxsanctuary)
-  [![Licencia](https://img.shields.io/badge/license-MIT-818CF8?style=for-the-badge&labelColor=0F172A)](./LICENSE)
-  [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-6EE7B7?style=for-the-badge&labelColor=0F172A)](./CONTRIBUTING.md)
+*Santuario digital y laboratorio de desarrollo de software sobrio, arquitecturas monolíticas de alto rendimiento y pipelines autónomos.*
 
-  <p align="center">
-    <a href="#-inicio-rápido"><strong>Inicio Rápido</strong></a> ·
-    <a href="#-pilares-del-santuario"><strong>Características</strong></a> ·
-    <a href="#-arquitectura"><strong>Arquitectura</strong></a> ·
-    <a href="#-hoja-de-ruta"><strong>Roadmap</strong></a> ·
-    <a href="#-comunidad"><strong>Comunidad</strong></a>
-  </p>
+[Landing Page Live](https://radaptow.github.io/syntaxsanctuary) • [Perfil de Autor](https://github.com/radaptow) • [Reportar Auditoría](mailto:mostlyphpsoftware@gmail.com)
+
+---
 
 </div>
 
----
+## 🧭 1. El Manifiesto: De *mostlyphpsoftware* a *SyntaxSanctuary*
 
-## 🌿 La Filosofía
+En una industria saturada por la sobreingeniería de dependencias efímeras, microservicios sobredimensionados y ciclos interminables de configuración, **SyntaxSanctuary** nace como un refugio técnico fundado en una premisa innegociable: **la sobriedad arquitectónica**.
 
-En un ecosistema saturado de configuraciones interminables, dependencias innecesarias y fatiga tecnológica, **SyntaxSanctuary** nace como un espacio de claridad. Aquí cada línea tiene un propósito, cada abstracción está justificada y la experiencia de desarrollo (*Developer Experience*) se trata como un arte.
+La raíz del proyecto, concebida bajo la visión de **`mostlyphpsoftware`**, reivindica la potencia, estabilidad y predictibilidad de construir sobre los cimientos que realmente sostienen la web:
 
-> *"Escribe código como quien construye un santuario: sólido en sus cimientos, limpio en su estructura y sereno para quien lo habita."*
+1. **PHP Monolítico Moderno**: Lejos de los mitos heredados, PHP nativo moderno ofrece una de las máquinas de ejecución compartida en memoria y procesamiento por hilo más robustas, seguras y económicamente sostenibles del planeta.
+2. **Vanilla & Native Web**: JavaScript puro sin cadenas de compilación frágiles. Si una característica puede resolverse con el estándar nativo del navegador o del intérprete, se resuelve sin dependencias externas.
+3. **El Santuario (SyntaxSanctuary)**: El espacio físico y conceptual donde esta ingeniería monolítica se orquesta con inteligencia artificial local, agentes autónomos y auditorías de seguridad continua.
 
----
-
-## ✨ Pilares del Santuario
-
-| Pilar | Descripción |
-| :--- | :--- |
-| 🏛️ **Arquitectura Intencional** | Estructura modular y predecible diseñada para escalar sin deuda técnica oculta. |
-| ⚡ **Cero Fricción (Zen DX)** | Arranque instantáneo, tipado estricto y herramientas configuradas listas para producir desde el minuto uno. |
-| 🧩 **Patrones Curados** | Colección selecta de *snippets*, componentes y utilidades probadas en batalla y libres de *bloatware*. |
-| 🛡️ ** tipado & Seguridad** | Validación de extremo a extremo, manejo elegante de errores y pruebas automatizadas integradas. |
+> *"Menos dependencias en el árbol de paquetes equivalen a menos vectores de ataque y menor deuda técnica acumulada."*
 
 ---
 
-## 🚀 Inicio Rápido
+## 🏛️ 2. Pilares del Ecosistema
 
-Pon en marcha tu entorno local en menos de un minuto.
+```
+                     ┌────────────────────────────────────────┐
+                     │            SyntaxSanctuary             │
+                     │   (Computadoras • Código • Internet)   │
+                     └───────────────────┬────────────────────┘
+                                         │
+         ┌───────────────────────────────┼───────────────────────────────┐
+         ▼                               ▼                               ▼
+ ┌───────────────┐               ┌───────────────┐               ┌───────────────┐
+ │ mostlyphp-    │               │  AryiCodTel   │               │ OSCR Security │
+ │ monolith      │               │  Orquestador  │               │ & Edge AI     │
+ ├───────────────┤               ├───────────────┤               ├───────────────┤
+ │ • PHP Nativo  │               │ • Agentes AI  │               │ • Whisper Loc │
+ │ • Cero Bloat  │               │ • Inferencia  │               │ • Auditoría   │
+ │ • Web API Std │               │ • Telemetría  │               │ • Zero-Leaks  │
+ └───────────────┘               └───────────────┘               └───────────────┘
+```
 
-### Prerrequisitos
+### 🔹 Core: Monolith Suite (`mostlyphpsoftware`)
+- **Propósito**: Estructura de servidor monolítica para servicios autónomos y APIs de baja latencia.
+- **Enfoque técnico**:
+  - PHP 8.x estricto con tipado estático riguroso.
+  - Zero-Framework Bloat: Arquitectura limpia sin cientos de librerías enlazadas innecesariamente.
+  - Vistas y contratos frontend resueltos mediante plantillas directas y componentes JS nativos.
 
-* **Node.js** `>= 20.x` (o **Bun** `>= 1.1`)
-* **Git** instalado en tu sistema
+### 🔹 AryiCodTel (Agent Orchestrator)
+- **Propósito**: Plataforma de orquestación para agentes autónomos locales.
+- **Enfoque técnico**:
+  - Coordinación de flujos de trabajo de desarrollo y automatización de tareas.
+  - Ejecución desacoplada con capacidad de inferencia local.
+  - Registro de telemetría determinista para trazabilidad de código generado.
 
-### Instalación
+### 🔹 OSCR (Open Source Code Release) Standard
+- **Propósito**: Protocolo y directriz de seguridad para entregas de código público.
+- **Enfoque técnico**:
+  - Auditoría criptográfica de integridad de cambios.
+  - Análisis estático previo al despliegue.
+  - Reducción preventiva de riesgos de cadena de suministro (Supply Chain Security).
+
+### 🔹 Edge AI & Whisper Pipelines
+- **Propósito**: Integración de capacidades de voz e inferencia en el borde.
+- **Enfoque técnico**:
+  - Transcripción y procesamiento de audio sin telemetría enviada a terceros.
+  - Privacidad total por diseño (Local-First).
+
+---
+
+## 🚀 3. Estado del Repositorio (Standby Deployment)
+
+Este repositorio aloja la landing page de reserva de dominio y nodo principal para **GitHub Pages**.
+
+### Estructura de Archivos
+
+```plaintext
+.
+├── index.html        # Landing page autocontenida (Cyber-Terminal, Tailwind CDN, Live Shell)
+├── README.md         # Documentación y manifiesto unificado
+└── CNAME             # (Opcional) Configuración para dominio personalizado
+```
+
+### Clonación y Ejecución Local
+
+Para levantar el entorno localmente sin dependencias ni herramientas de compilación externas:
 
 ```bash
-# 1. Clona el santuario en tu máquina local
-git clone https://github.com/tu-usuario/syntaxsanctuary.git
+# 1. Clonar el repositorio
+git clone https://github.com/radaptow/syntaxsanctuary.git
 
-# 2. Accede al directorio
+# 2. Entrar al directorio
 cd syntaxsanctuary
 
-# 3. Instala las dependencias limpias
-npm install
-
-# 4. Inicia el entorno en modo desarrollo
-npm run dev
+# 3. Iniciar el servidor local nativo de PHP (Zero-Config)
+php -S localhost:8080
 ```
 
----
-
-## 💻 Ejemplo de Uso
-
-**SyntaxSanctuary** prioriza APIs declarativas, legibles y autoexplicativas:
-
-```typescript
-import { createSanctuary, guard, compose } from '@syntaxsanctuary/core';
-
-const app = createSanctuary({
-  mode: 'zen',
-  strictSyntax: true,
-});
-
-app.register(
-  compose(
-    guard.validateSchema(),
-    async (ctx) => {
-      return ctx.respond({
-        status: 'serene',
-        message: 'Bienvenido a SyntaxSanctuary ✨',
-      });
-    }
-  )
-);
-
-await app.ignite(3000);
-```
+Abre tu navegador en `http://localhost:8080`.
 
 ---
 
-## 🗂️ Arquitectura
+## ⚙️ 4. Guía de Despliegue en GitHub Pages
 
-Una organización pensada para encontrar cualquier pieza del sistema de un vistazo:
+Para asociar tu dominio propio o mantener la página activa en standby:
 
-```text
-syntaxsanctuary/
-├── assets/              # Recursos gráficos y logo oficial (logo.svg)
-├── docs/                # Guías de estilo, ADRs y documentación técnica
-├── packages/
-│   ├── core/            # Motor principal y primitivas base
-│   ├── cli/             # Herramientas de línea de comandos
-│   └── patterns/        # Biblioteca de patrones y utilidades puras
-├── tests/               # Suites de pruebas unitarias y de integración
-└── README.md            # Puerta de entrada al santuario
-```
+1. Ve a **Settings** > **Pages** en tu repositorio de GitHub.
+2. En **Build and deployment**:
+   - **Source**: `Deploy from a branch`
+   - **Branch**: `main` (o `gh-pages`) / `/ (root)`
+3. En **Custom domain** (si aplica):
+   - Ingresa tu dominio (ejemplo: `syntaxsanctuary.com`).
+   - Habilita la opción **Enforce HTTPS**.
+4. Tu sitio quedará disponible de forma inmediata en alta disponibilidad bajo la CDN de GitHub Pages.
 
 ---
 
-## 🗺️ Hoja de Ruta
+## 🔒 5. Canales de Contacto y Seguridad
 
-- [x] Diseño del núcleo modular y definición de estándares de código
-- [x] CLI interactivo para generación de plantillas limpias
-- [ ] Sistema de *plugins* minimalistas sin dependencias externas
-- [ ] Portal interactivo de documentación y *playground* en vivo
-- [ ] Extensión oficial para editores (VS Code / Cursor / Zed)
+Para colaboraciones técnicas, reportes de auditoría bajo el estándar OSCR o dudas sobre la implementación de la suite de software:
 
----
-
-## 🎨 Logo Oficial (Exportar para GitHub)
-
-> **Nota para GitHub:** Por políticas de seguridad, GitHub bloquea imágenes `data:image/svg+xml` en línea dentro de los repositorios públicos. Para que el logo luzca perfecto en tu repositorio, guarda el siguiente código en `assets/logo.svg` y cambia el `src` superior a `./assets/logo.svg`.
-
-<details>
-<summary><strong>👉 Haz clic aquí para copiar el código fuente de <code>assets/logo.svg</code></strong></summary>
-
-```xml
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240">
-  <defs>
-    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#34D399"/>
-      <stop offset="50%" stop-color="#38BDF8"/>
-      <stop offset="100%" stop-color="#818CF8"/>
-    </linearGradient>
-    <linearGradient id="g2" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#6EE7B7"/>
-      <stop offset="100%" stop-color="#3B82F6"/>
-    </linearGradient>
-  </defs>
-  <!-- Base oscura del santuario -->
-  <rect x="10" y="10" width="220" height="220" rx="48" fill="#0F172A" stroke="url(#g1)" stroke-width="4"/>
-  <!-- Arco arquitectónico sagrado -->
-  <path d="M54 186 V112 C54 66 120 38 120 38 C120 38 186 66 186 112 V186" fill="none" stroke="url(#g1)" stroke-width="5" stroke-linecap="round" opacity="0.35"/>
-  <!-- Nodo cenital -->
-  <circle cx="120" cy="60" r="5" fill="#34D399"/>
-  <!-- Pilares de llaves { } -->
-  <path d="M98 80 C82 80 82 92 82 105 V113 C82 120 72 125 66 125 C72 125 82 130 82 137 V145 C82 158 82 170 98 170" fill="none" stroke="url(#g1)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M142 80 C158 80 158 92 158 105 V113 C158 120 168 125 174 125 C168 125 158 130 158 137 V145 C158 158 158 170 142 170" fill="none" stroke="url(#g1)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
-  <!-- Piedra angular luminosa -->
-  <polygon points="120,98 135,125 120,152 105,125" fill="url(#g2)"/>
-  <!-- Umbral inferior -->
-  <line x1="76" y1="194" x2="164" y2="194" stroke="#334155" stroke-width="4" stroke-linecap="round"/>
-</svg>
-```
-
-</details>
-
----
-
-## 🤝 Comunidad y Contribuciones
-
-Las puertas del santuario están abiertas para cualquier desarrollador que valore la artesanía del software.
-
-1. Haz un **Fork** del repositorio.
-2. Crea una rama descriptiva (`git checkout -b feat/nueva-mejora`).
-3. Asegúrate de mantener la pureza del código (`npm run lint && npm test`).
-4. Abre un **Pull Request** detallando tu aporte.
+- **Correo Electrónico**: [mostlyphpsoftware@gmail.com](mailto:mostlyphpsoftware@gmail.com)
+- **GitHub**: [@radaptow](https://github.com/radaptow)
+- **Línea de Enfoque**: Computadoras • Programación • Internet
 
 ---
 
 <div align="center">
-  <sub>Construido con calma, precisión y pasión por el código limpio en <strong>SyntaxSanctuary</strong>.</sub><br/>
-  <sub>Distribuido bajo la licencia <a href="./LICENSE">MIT</a> © 2026</sub>
+  <sub>Desarrollado y mantenido por <b>radaptow</b> bajo la filosofía de <b>mostlyphpsoftware</b>.</sub><br>
+  <sub>SyntaxSanctuary © Todos los derechos reservados.</sub>
 </div>
